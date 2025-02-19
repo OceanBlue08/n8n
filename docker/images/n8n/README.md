@@ -147,7 +147,7 @@ The following environment variables support file input:
 - DB_POSTGRESDB_USER_FILE
 - DB_POSTGRESDB_SCHEMA_FILE
 
-## Example Setup with Lets Encrypt
+## Example Setup with Lets Encrypt 123
 
 A basic step by step example setup of n8n with docker-compose and Lets Encrypt is available on the
 [Server Setup](https://docs.n8n.io/#/server-setup) page.
