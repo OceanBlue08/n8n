@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script ipt setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import { v4 as uuid } from 'uuid';
@@ -84,7 +84,7 @@ watch(defaultLocale, (newLocale) => {
 	void loadLanguage(newLocale);
 });
 </script>
-
+123123
 <template>
 	<LoadingView v-if="loading" />
 	<div
@@ -96,28 +96,49 @@ watch(defaultLocale, (newLocale) => {
 		}"
 	>
 		<div id="app-grid" ref="appGrid" :class="$style['app-grid']">
+			<!-- Banner section -->
 			<div id="banners" :class="$style.banners">
 				<BannerStack v-if="!isDemoMode" />
 			</div>
-			<div id="header" :class="$style.header">
-				<router-view name="header"></router-view>
-			</div>
-			<div v-if="usersStore.currentUser" id="sidebar" :class="$style.sidebar">
-				<router-view name="sidebar"></router-view>
-			</div>
-			<div id="content" :class="$style.content">
-				<div :class="$style.contentWrapper">
-					<router-view v-slot="{ Component }">
-						<keep-alive v-if="$route.meta.keepWorkflowAlive" include="NodeViewSwitcher" :max="1">
-							<component :is="Component" />
-						</keep-alive>
-						<component :is="Component" v-else />
-					</router-view>
+
+			<!-- Main layout -->
+			<div :class="$style.mainLayout">
+				<!-- Sidebar -->
+				<div v-if="usersStore.currentUser" id="sidebar" :class="$style.sidebar">
+					<router-view name="sidebar"></router-view>
 				</div>
-				<div v-if="hasContentFooter" :class="$style.contentFooter">
-					<router-view name="footer" />
+
+				<!-- Content area -->
+				<div :class="$style.mainContent">
+					<!-- Header -->
+					<div id="header" :class="$style.header">
+						<router-view name="header"></router-view>
+					</div>
+
+					<!-- Main content -->
+					<div id="content" :class="$style.content">
+						<div :class="$style.contentWrapper">
+							<router-view v-slot="{ Component }">
+								<keep-alive
+									v-if="$route.meta.keepWorkflowAlive"
+									include="NodeViewSwitcher"
+									:max="1"
+								>
+									<component :is="Component" />
+								</keep-alive>
+								<component :is="Component" v-else />
+							</router-view>
+						</div>
+
+						<!-- Footer -->
+						<div v-if="hasContentFooter" :class="$style.contentFooter">
+							<router-view name="footer" />
+						</div>
+					</div>
 				</div>
 			</div>
+
+			<!-- Modals and other components -->
 			<div :id="APP_MODALS_ELEMENT_ID" :class="$style.modals">
 				<Modals />
 			</div>
@@ -134,8 +155,8 @@ watch(defaultLocale, (newLocale) => {
 .container {
 	height: 100vh;
 	overflow: hidden;
-	display: grid;
-	grid-template-columns: 1fr auto;
+	display: flex;
+	background-color: var(--color-background-light);
 }
 
 // App grid is the main app layout including modals and other absolute positioned elements
@@ -199,6 +220,16 @@ watch(defaultLocale, (newLocale) => {
 .sidebar {
 	grid-area: sidebar;
 	z-index: var(--z-index-app-sidebar);
+}
+
+.n8n-button {
+	background-color: #4caf50;
+	color: #fff;
+	border: none;
+
+	&:hover {
+		background-color: #245526;
+	}
 }
 
 .modals {
